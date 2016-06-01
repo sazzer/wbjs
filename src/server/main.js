@@ -1,7 +1,9 @@
-import { name } from './second'
+import { startServer } from './server/index.js'
 
-const output = (name) => {
-  console.log(`hello, ${name}`);
-}
-
-output(name);
+startServer()
+  .then((server) => {
+    console.log('Started server');
+  }).catch((err) => {
+    console.log('Failed to start server');
+    console.log(err);
+  });

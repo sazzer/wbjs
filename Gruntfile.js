@@ -19,6 +19,12 @@ module.exports = function(grunt) {
         }]
       }
     },
+    concurrent: {
+      run: ['watch:rebuild', 'nodemon:server'],
+      options: {
+        logConcurrentOutput: true
+      }
+    },
     eslint: {
       options: {
         configFile: '.eslintrc'
@@ -51,16 +57,34 @@ module.exports = function(grunt) {
         }
       }
     },
+    nodemon: {
+      server: {
+        script: 'target/server/main.js',
+        options: {
+          args: ['start'],
+          watch: 'target',
+          ext: '*'
+        }
+      }
+    },
     remapIstanbul: {
       server: {
         src: 'target/coverage/coverage.json',
         options: {
           reports: {
-            'html': 'target/coverage/report',
             'json': 'target/coverage/coverage.json',
             'lcovonly': 'target/coverage/lcov.info',
             'text': undefined
           }
+        }
+      }
+    },
+    watch: {
+      rebuild: {
+        files: ['src/**/*'],
+        tasks: ['test'],
+        options: {
+          atBegin: false
         }
       }
     }
@@ -68,4 +92,5 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['eslint:server', 'jscpd:server', 'babel:server']);
   grunt.registerTask('test', ['build', 'mocha_istanbul:server', 'remapIstanbul']);
+  grunt.registerTask('run', ['test', 'concurrent:run']);
 };

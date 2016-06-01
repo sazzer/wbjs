@@ -18,9 +18,26 @@ module.exports = function(grunt) {
           dest: 'target/server'
         }]
       }
+    },
+    eslint: {
+      options: {
+        configFile: 'eslintrc'
+      },
+      server: {
+        files: [{
+          expand: true,
+          cwd: 'src/server',
+          src: ['**/*.js'],
+        }]
+      }
+    },
+    jscpd: {
+      server: {
+        path: 'src/server'
+      }
     }
   });
 
-  grunt.registerTask('build', ['babel:server']);
+  grunt.registerTask('build', ['eslint:server', 'jscpd:server', 'babel:server']);
   grunt.registerTask('test', ['build']);
 };

@@ -1,0 +1,9 @@
+{
+  "name": "worldbuilder",
+  "version": "1.0.0",
+  "description": "Cloud based Worldbuilder CMS",
+  "scripts": {
+  },
+  "author": "Graham Cox <graham@grahamcox.co.uk>",
+  "license": "ISC"
+}

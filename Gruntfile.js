@@ -21,7 +21,7 @@ module.exports = function(grunt) {
     },
     eslint: {
       options: {
-        configFile: 'eslintrc'
+        configFile: '.eslintrc'
       },
       server: {
         files: [{

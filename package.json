@@ -2,11 +2,19 @@
   "name": "worldbuilder",
   "version": "1.0.0",
   "description": "Cloud based Worldbuilder CMS",
+  "keywords": [],
+  "homepage": "http://none.yet",
+  "repository": "http://none.yet",
+  "bugs": "http://none.yet",
+  "engines": {
+
+  },
   "scripts": {
     "install": "grunt build",
     "test": "grunt test"
   },
   "author": "Graham Cox <graham@grahamcox.co.uk>",
+  "contributors": [],
   "license": "ISC",
   "devDependencies": {
     "babel-eslint": "^6.0.4",
@@ -20,5 +28,6 @@
     "time-grunt": "^1.3.0"
   },
   "dependencies": {
-  }
+  },
+  "eslintConfig": ".eslintrc"
 }

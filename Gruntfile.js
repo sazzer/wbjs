@@ -46,6 +46,7 @@ module.exports = function(grunt) {
       options: {
         reporter: 'spec',
         reportFormats: ['lcovonly'],
+        mochaOptions: ['--growl'],
         istanbulOptions: ['--include-all-sources'],
         print: 'none'
       },

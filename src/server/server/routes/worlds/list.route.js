@@ -1,4 +1,7 @@
 import Joi  from 'joi'
+import { WORLDS_SCHEMA } from './worlds.schema'
+import { findAllWorlds } from '../../../worlds/finder';
+import { toApi } from './translator';
 
 export const routes = {
   method: 'GET',
@@ -12,14 +15,7 @@ export const routes = {
       options: {
 
       },
-      schema: Joi.array().items(
-        Joi.object().keys({
-          name: Joi.string().required().min(1).trim().description('The name of the world'),
-          version: Joi.string().required().min(1).trim().description('The version tag of the world'),
-          created: Joi.date().iso().required().description('The timestamp when the world was created'),
-          updated: Joi.date().iso().required().description('The timestamp when the world was last updated')
-        }).description('Representation of a single world')
-      ).description('Collection of world records that match the request')
+      schema: WORLDS_SCHEMA
     },
     validate: {
       failAction: 'error',
@@ -28,14 +24,9 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      reply([
-        {
-          name: 'Discworld',
-          version: '1',
-          created: new Date(),
-          updated: new Date()
-        }
-      ]);
+      findAllWorlds()
+        .then((worlds) => worlds.map(toApi))
+        .then(reply);
     }
   }
 }

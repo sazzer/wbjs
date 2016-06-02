@@ -53,6 +53,9 @@ module.exports = function(grunt) {
       server: {
         src: 'target/server/**/*.spec.js',
         options: {
+          require: [
+            'target/server/test-helper'
+          ],
           coverageFolder: 'target/coverage',
           root: 'target/server'
         }
@@ -87,7 +90,15 @@ module.exports = function(grunt) {
         options: {
           atBegin: false
         }
+      },
+      test: {
+        files: ['src/**/*'],
+        tasks: ['test'],
+        options: {
+          atBegin: true
+        }
       }
+
     }
   });
 

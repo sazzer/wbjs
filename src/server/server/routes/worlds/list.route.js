@@ -26,6 +26,24 @@ export const routes = {
     handler: (request, reply) => {
       findAllWorlds()
         .then((worlds) => worlds.map(toApi))
+        .then((worlds) => worlds.map((w) => {
+          return {
+            resource: w,
+            cursor: 'abc',
+            offset: 0
+          };
+        }))
+        .then((worlds) => {
+          return {
+            data: worlds,
+            pagination: {
+              hasNextPage: false,
+              hasPreviousPage: false,
+              pageOffset: 0,
+              count: 1
+            }
+          }
+        })
         .then(reply);
     }
   }

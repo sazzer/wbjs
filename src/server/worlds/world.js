@@ -5,18 +5,28 @@ import Immutable from 'immutable';
 export class World {
   /**
    * Construct the World
+   * @param {String} id The ID of the World
    * @param {String} name The name of the World
    * @param {String} version The version of the World
    * @param {moment} created When the World was created
    * @param {moment} updated When the World was last updated
    */
-  constructor(name, version, created, updated) {
+  constructor(id, name, version, created, updated) {
     this._state = Immutable.fromJS({
+      id,
       name,
       version,
       created,
       updated
     });
+  }
+
+  /**
+   * Get the ID of the World
+   * @return {String} the ID of the World
+   */
+  get id() {
+    return this._state.get('id');
   }
 
   /**

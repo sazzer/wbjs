@@ -5,6 +5,7 @@
  */
 export function toApi(world) {
   return {
+    id: world.id,
     name: world.name,
     version: world.version,
     created: world.created.utc().format(),

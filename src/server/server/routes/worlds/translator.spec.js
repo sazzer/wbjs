@@ -5,7 +5,7 @@ import { toApi } from './translator';
 
 describe('worlds/translator', function() {
   describe('toApi', function() {
-    const world = new World('My World', 'v1', moment('2016-06-01T11:56:11Z'), moment('2016-06-02T11:56:11Z'));
+    const world = new World('123', 'My World', 'v1', moment('2016-06-01T11:56:11Z'), moment('2016-06-02T11:56:11Z'));
     const translated = toApi(world);
 
     it('is the correct type', function() {

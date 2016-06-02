@@ -7,6 +7,6 @@ import moment from 'moment-timezone';
  */
 export function findAllWorlds() {
   return Promise.resolve([
-    new World('Discworld', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment())
+    new World('123', 'Discworld', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment())
   ]);
 }

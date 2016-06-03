@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     babel: {
       options: {
         sourceMap: true,
-        plugins: [],
+        plugins: ['rewire'],
         presets: ['es2015']
       },
       server: {

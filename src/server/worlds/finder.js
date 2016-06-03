@@ -1,18 +1,14 @@
 import { World } from './world';
 import moment from 'moment-timezone';
 import { ResultSet } from '../service/resultset';
+import { find } from './dao';
 
 /**
  * Mechanism to find all of the worlds in the system
  * @return {Promise} A promise for the worlds that match the search
  */
 export function findAllWorlds() {
-  const results = new ResultSet([
-    new World('123', 'Discworld', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment()),
-    new World('321', 'Faerun', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment())
-  ], 2, 0);
-
-  return Promise.resolve(results);
+  return find();
 }
 /**
  * Mechanism to find a single world by the given ID

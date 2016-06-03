@@ -45,7 +45,8 @@
     "graphql": "^0.6.0",
     "immutable": "^3.8.1",
     "moment-timezone": "^0.5.4",
-    "source-map-support": "^0.4.0"
+    "source-map-support": "^0.4.0",
+    "trace-error": "0.0.7"
   },
   "eslintConfig": ".eslintrc"
 }

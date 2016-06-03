@@ -10,7 +10,7 @@ describe('worlds/finder', function() {
         return expect(results).to.eventually.be.instanceOf(ResultSet);
       });
       it('Returns the correct values', function() {
-        return expect(results).to.eventually.have.property('results').with.size(1);
+        return expect(results).to.eventually.have.property('results').with.size(2);
       });
     })
   })

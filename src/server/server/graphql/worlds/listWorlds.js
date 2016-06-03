@@ -6,6 +6,7 @@ import { Connection } from '../common/connection';
 import { World, worldTranslator } from './world';
 import { findAllWorlds } from '../../../worlds/finder';
 import { pageInfoTranslator } from '../common/pageInfo';
+import { generateCursor } from '../common/cursor';
 import bunyan from 'bunyan';
 
 const LOGGER = bunyan.createLogger({name: 'listWorlds'});
@@ -24,11 +25,11 @@ export const ListWorldsQueryField = {
       .then((worlds) => {
         return {
           pageInfo: pageInfoTranslator(worlds),
-          edges: worlds.results.map((world) => {
+          edges: worlds.results.map((world, index) => {
             return {
               resource: worldTranslator(world),
-              cursor: 'abc',
-              offset: 0
+              cursor: generateCursor('World', index),
+              offset: index
             }
           }).toJS()
         };

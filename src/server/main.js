@@ -1,4 +1,10 @@
 require('source-map-support').install();
-import {buildServer} from './server';
+import { startServer } from './server/index.js'
 
-buildServer().listen(3000);
+startServer()
+  .then((server) => {
+    console.log('Started server');
+  }).catch((err) => {
+    console.log('Failed to start server');
+    console.log(err);
+  });

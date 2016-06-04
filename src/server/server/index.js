@@ -1,22 +1,20 @@
-import express from 'express';
-import graphqlHTTP from 'express-graphql';
-import {schema} from './graphql/schema';
-import expressBunyanLogger from 'express-bunyan-logger';
+import Glue  from 'glue'
+import { manifest } from './manifest';
 
-/**
- * Build the Express Server to use
- * @return {Express} the Express Server
- */
-export function buildServer() {
-  const app = express();
+export function startServer() {
+    return new Promise((resolve, reject) => {
+      const options = {
+        relativeTo: __dirname
+      };
 
-  app.use(expressBunyanLogger());
-  app.use(expressBunyanLogger.errorLogger());
-
-  app.use('/api/graphql', graphqlHTTP({
-    schema: schema,
-    graphiql: true
-  }));
-
-  return app;
+      Glue.compose(manifest(), options, (err, server) => {
+        if (err) {
+          reject(err);
+        } else {
+          server.start(() => {
+            resolve(server);
+          })
+        }
+      });
+    });
 }

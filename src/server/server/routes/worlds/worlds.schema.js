@@ -1,6 +1,8 @@
 import Joi from 'joi';
 import { WORLD_SCHEMA, translateToApi as translateWorldToApi } from './world.schema';
 import { PAGE_INFO_SCHEMA, translateToApi as translatePageInfoToApi } from '../common/pageInfo.schema';
+import { ResultSet } from '../../../service/resultset';
+import { World } from '../../../worlds/world';
 
 const WORLD_EDGE = Joi.object().keys({
   resource: WORLD_SCHEMA.required(),
@@ -15,10 +17,10 @@ export const WORLDS_SCHEMA = Joi.object().keys({
 
 /**
  * Translator to take a resultset and translate it to an API representation
- * @param {Resultset} resultset The resultset to translate
+ * @param {ResultSet} resultset The resultset to translate
  * @return {Object} the translated response
  */
-export function translateToApi(resultset) {
+export function translateToApi(resultset: ResultSet<World>) : Object {
   return {
     edges: resultset.results.map((world, index) => {
       return {

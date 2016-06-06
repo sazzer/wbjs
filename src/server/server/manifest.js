@@ -1,6 +1,10 @@
 import { DbHealthcheck} from './dbHealthcheck.plugin';
 
-export function manifest() {
+/**
+ * Generate the Glue Manifest to configure the server
+ * @return {object} The manifest
+ */
+export function manifest() : Object {
   return {
     server: {
 

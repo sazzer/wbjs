@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { ResultSet } from '../../../service/resultset';
 
 export const PAGE_INFO_SCHEMA = Joi.object().keys({
   hasNextPage: Joi.boolean().description('Whether there is a next page of results or not').required(),
@@ -12,7 +13,7 @@ export const PAGE_INFO_SCHEMA = Joi.object().keys({
  * @param {Resultset} resultset The resultset to translate
  * @return {Object} the translated response
  */
-export function translateToApi(resultset) {
+export function translateToApi<T>(resultset: ResultSet<T>) : Object {
   const hasNextPage = (resultset.offset > 0);
   const hasPreviousPage = (resultset.offset + resultset.results.length < resultset.count);
 

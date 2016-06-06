@@ -1,7 +1,11 @@
 import Glue  from 'glue'
 import { manifest } from './manifest';
 
-export function startServer() {
+/**
+ * Actually start the server running
+ * @return {Promise} A promise for the running server
+ */
+export function startServer() : Promise {
     return new Promise((resolve, reject) => {
       const options = {
         relativeTo: __dirname

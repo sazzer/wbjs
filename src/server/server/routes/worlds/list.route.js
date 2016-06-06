@@ -1,6 +1,7 @@
 import Joi  from 'joi'
 import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
+
 export const routes = {
   method: 'GET',
   path: '/api/worlds',

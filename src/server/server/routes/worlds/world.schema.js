@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { World } from '../../../worlds/world';
 
 export const WORLD_SCHEMA = Joi.object().keys({
   id: Joi.string().min(1).description('The unique ID of the World').required(),
@@ -12,7 +13,7 @@ export const WORLD_SCHEMA = Joi.object().keys({
  * @param {World} world The world to translate
  * @return {Object} the translated response
  */
- export function translateToApi(world) {
+ export function translateToApi(world: World) : Object {
    return {
      id: world.id,
      name: world.name,

@@ -1,13 +1,12 @@
 import { expect } from 'chai';
-import { ResultSet } from './resultset';
 import { List } from 'immutable';
+import { ResultSet } from './resultset';
 
 describe('ResultSet', function() {
   describe('Valid construction', function() {
     const resultset = new ResultSet([1, 2, 3], 4, 5);
 
     it('Has the correct results', function() {
-      expect(resultset.results).is.an.instanceOf(List);
       expect(resultset.results).to.equal(List([1, 2, 3]));
     })
     it('Has the correct count', function() {

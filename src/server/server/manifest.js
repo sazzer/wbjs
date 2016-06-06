@@ -1,3 +1,5 @@
+import { DbHealthcheck} from './dbHealthcheck.plugin';
+
 export function manifest() {
   return {
     server: {
@@ -41,12 +43,15 @@ export function manifest() {
       }
     }, {
       plugin: {
-        register: 'hale',
+        register: 'hapi-and-healthy',
         options: {
           path: '/api/health',
           tags: ['health', 'monitor', 'api'],
-          metadata: {
-            name: 'worldbuilder'
+          name: 'worldbuilder',
+          test: {
+            node: [
+              DbHealthcheck
+            ]
           }
         }
       }

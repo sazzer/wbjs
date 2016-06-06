@@ -1,6 +1,10 @@
+var config = require('config');
+
 module.exports = function(grunt) {
   require('time-grunt')(grunt);
-  require('jit-grunt')(grunt);
+  require('jit-grunt')(grunt, {
+      migrate: 'grunt-db-migrate'
+  });
 
   // Keep the plugins in alphabetical order
   grunt.initConfig({
@@ -24,6 +28,15 @@ module.exports = function(grunt) {
       options: {
         logConcurrentOutput: true
       }
+    },
+    migrate: {
+        options: {
+            env: {
+                DATABASE_URL: config.get('Database.url')
+            },
+            'migrations-dir': 'src/migrations',
+            verbose: true
+        }
     },
     eslint: {
       options: {

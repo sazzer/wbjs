@@ -31,6 +31,7 @@
     "grunt-cli": "^1.2.0",
     "grunt-concurrent": "^2.3.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-db-migrate": "^0.3.0",
     "grunt-eslint": "^18.1.0",
     "grunt-jscpd": "0.0.11",
     "grunt-mocha-istanbul": "^5.0.1",

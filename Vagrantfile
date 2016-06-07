@@ -12,6 +12,10 @@ Vagrant.configure(2) do |config|
 
     su - postgres -c "psql -c \\"CREATE USER worldbuilder WITH PASSWORD 'w0rldbuilder';\\""
     su - postgres -c "createdb --owner worldbuilder worldbuilder"
+
+    su - postgres -c "psql -c \\"CREATE USER wb_test WITH PASSWORD 'w0rldbuilder';\\""
+    su - postgres -c "createdb --owner wb_test wb_test"
+
     echo "listen_addresses = '*'" >> /etc/postgresql/9.5/main/postgresql.conf
     echo "host  all     all     all     md5" >> /etc/postgresql/9.5/main/pg_hba.conf
     service postgresql restart

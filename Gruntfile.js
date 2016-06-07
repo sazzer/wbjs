@@ -21,6 +21,14 @@ module.exports = function(grunt) {
           src: ['**/*.js'],
           dest: 'target/server'
         }]
+      },
+      integration: {
+        files: [{
+          expand: true,
+          cwd: 'src/integration',
+          src: ['**/*.js'],
+          dest: 'target/integration'
+        }]
       }
     },
     concurrent: {
@@ -29,14 +37,10 @@ module.exports = function(grunt) {
         logConcurrentOutput: true
       }
     },
-    migrate: {
-        options: {
-            env: {
-                DATABASE_URL: config.get('Database.url')
-            },
-            'migrations-dir': 'src/migrations',
-            verbose: true
-        }
+    env: {
+      integration: {
+        NODE_ENV: 'integration'
+      }
     },
     eslint: {
       options: {
@@ -48,12 +52,31 @@ module.exports = function(grunt) {
           cwd: 'src/server',
           src: ['**/*.js'],
         }]
+      },
+      integration: {
+        files: [{
+          expand: true,
+          cwd: 'src/integration',
+          src: ['**/*.js'],
+        }]
       }
     },
     jscpd: {
       server: {
         path: 'src/server'
+      },
+      integration: {
+        path: 'src/integration'
       }
+    },
+    migrate: {
+        options: {
+            env: {
+                DATABASE_URL: config.get('Database.url')
+            },
+            'migrations-dir': 'src/migrations',
+            verbose: true
+        }
     },
     mocha_istanbul: {
       options: {
@@ -71,6 +94,16 @@ module.exports = function(grunt) {
           ],
           coverageFolder: 'target/coverage',
           root: 'target/server'
+        }
+      },
+      integration: {
+        src: 'target/integration/**/*.spec.js',
+        options: {
+          require: [
+            'target/integration/test-helper'
+          ],
+          coverage: false,
+          root: 'target/integration'
         }
       }
     },
@@ -116,6 +149,8 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('build', ['eslint:server', 'jscpd:server', 'babel:server']);
+  grunt.registerTask('build_integration', ['eslint:integration', 'jscpd:integration', 'babel:integration']);
   grunt.registerTask('test', ['build', 'mocha_istanbul:server', 'remapIstanbul']);
+  grunt.registerTask('integration', ['env:integration', 'build', 'build_integration', 'migrate:up', 'mocha_istanbul:integration']);
   grunt.registerTask('run', ['test', 'concurrent:run']);
 };

@@ -104,6 +104,14 @@ gulp.task('pre-integration-test', function(cb) {
   migrate('up', cb);
 });
 
+gulp.task('run', ['test'], function() {
+  plugins.nodemon({
+    script: 'target/server/main.js',
+    tasks: ['test'],
+    watch: 'src'
+  });
+});
+
 gulp.task('build', ['lint:server', 'jscpd:server', 'babel:server']);
 gulp.task('build_integration', ['lint:integration', 'jscpd:integration', 'babel:integration']);
 gulp.task('test', ['post-unit-test']);

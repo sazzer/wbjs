@@ -46,6 +46,7 @@
     "gulp-jscpd": "0.0.7",
     "gulp-load-plugins": "^1.2.4",
     "gulp-mocha": "^2.2.0",
+    "gulp-nodemon": "^2.0.7",
     "gulp-sourcemaps": "^1.6.0",
     "istanbul": "^0.4.3",
     "jit-grunt": "^0.10.0",

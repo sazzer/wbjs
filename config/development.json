@@ -1,5 +1,3 @@
 {
-  "Database": {
-    "url": "pg://worldbuilder:w0rldbuilder@172.20.0.9/worldbuilder"
-  }
+  "database": "pg://worldbuilder:w0rldbuilder@172.20.0.9/worldbuilder"
 }

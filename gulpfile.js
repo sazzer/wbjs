@@ -1,6 +1,9 @@
 var gulp = require('gulp'),
   babel = require('gulp-babel'),
+  config = require('config'),
+  env = require('gulp-env'),
   eslint = require('gulp-eslint'),
+  exec = require('child_process').exec,
   istanbul = require('gulp-istanbul'),
   jscpd = require('gulp-jscpd'),
   mocha = require('gulp-mocha'),
@@ -34,6 +37,20 @@ function buildBabel(target) {
       .pipe(sourcemaps.write('.'))
       .pipe(gulp.dest('target/' + target));
   }
+}
+
+function migrate(dir, cb) {
+  env({
+    vars: {
+      DATABASE_URL: config.get('Database.url')
+    }
+  });
+
+  exec('./node_modules/.bin/db-migrate --migrations-dir=./src/migrations --verbose ' + dir, function(err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    cb(err);
+  });
 }
 
 ['server', 'integration'].forEach(function(target) {
@@ -72,6 +89,24 @@ gulp.task('post-unit-test', ['unit-test'], function() {
       text: undefined
     }
    }));
+});
+
+gulp.task('migrate:up', function(cb) {
+  migrate('up', cb);
+});
+
+gulp.task('migrate:down', function(cb) {
+  migrate('down', cb);
+});
+
+gulp.task('pre-integration-test', function(cb) {
+  env({
+    vars: {
+      NODE_ENV: 'integration'
+    }
+  });
+
+  migrate('up', cb);
 });
 
 gulp.task('build', ['lint:server', 'jscpd:server', 'babel:server']);

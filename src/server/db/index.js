@@ -1,8 +1,8 @@
 import pgPromise from 'pg-promise';
-import config from 'config';
+import config from '../config';
 
 const pgp = pgPromise();
-const db = pgp(config.get('Database.url'));
+const db = pgp(config.get('database'));
 
 /**
  * Open a connection to the database

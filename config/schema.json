@@ -1,0 +1,13 @@
+{
+    "env": {
+      "doc": "The applicaton environment.",
+      "format": ["production", "development"],
+      "default": "development",
+      "env": "NODE_ENV"
+    },
+    "database": {
+      "doc": "The Database URL",
+      "default": "",
+      "env": "DATABASE_URL"
+    }
+}

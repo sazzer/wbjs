@@ -1,6 +1,6 @@
 import sqlFixtures from 'sql-fixtures';
 import cleaner from 'postgres-cleaner';
-import config from 'config';
+import config from '../server/config';
 import pg from 'pg';
 
 /**

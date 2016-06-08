@@ -40,6 +40,7 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-cli": "^1.2.1",
+    "gulp-env": "^0.4.0",
     "gulp-eslint": "^2.0.0",
     "gulp-istanbul": "^0.10.4",
     "gulp-jscpd": "0.0.7",
@@ -57,7 +58,7 @@
   "dependencies": {
     "blipp": "^2.3.0",
     "boom": "^3.2.1",
-    "config": "^1.21.0",
+    "convict": "^1.4.0",
     "glue": "^3.2.1",
     "good": "^7.0.1",
     "good-console": "^6.1.2",

@@ -1,6 +1,4 @@
 {
-  "Database": {
-    "url": "pg://wb_test:w0rldbuilder@172.20.0.9/wb_test"
-  }
+  "database": "pg://wb_test:w0rldbuilder@172.20.0.9/wb_test"
 }
 

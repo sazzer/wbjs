@@ -9,7 +9,7 @@ import pg from 'pg';
  * @return {Promise} a promise for the result of seeding the data
  */
 export function seed(data: Object) {
-  const dbUrl = config.get('Database.url');
+  const dbUrl = config.get('database');
 
   return new Promise((resolve, reject) => {
     pg.connect(dbUrl, (err, done) => {

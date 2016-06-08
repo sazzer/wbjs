@@ -3,7 +3,9 @@ var gulp = require('gulp'),
     DEBUG: true
   }),
   remapIstanbul = require('remap-istanbul/lib/gulpRemapIstanbul'),
-  exec = require('child_process').exec;
+  exec = require('child_process').exec,
+  convict = require('convict'),
+  schema = require('./config/schema.json');
 
 function buildLint(target) {
   return function() {
@@ -34,10 +36,20 @@ function buildBabel(target) {
   }
 }
 
+function loadConfig(name) {
+  var conf = convict(schema);
+
+  var env = conf.get('env');
+  conf.loadFile(`./config/${env}.json`);
+  conf.validate({strict: true});
+
+  return conf.get(name);
+}
+
 function migrate(dir, cb) {
-  env({
+  plugins.env({
     vars: {
-      DATABASE_URL: config.get('Database.url')
+      DATABASE_URL: loadConfig('database')
     }
   });
 
@@ -94,14 +106,23 @@ gulp.task('migrate:down', function(cb) {
   migrate('down', cb);
 });
 
-gulp.task('pre-integration-test', function(cb) {
-  env({
+gulp.task('pre-integration-test', ['build-integration'], function(cb) {
+  plugins.env({
     vars: {
       NODE_ENV: 'integration'
     }
   });
 
   migrate('up', cb);
+});
+
+gulp.task('integration-test', ['pre-integration-test'], function() {
+  return gulp.src(['target/integration/**/*.spec.js'])
+    .pipe(plugins.mocha({
+      ui: 'bdd',
+      reporter: 'spec',
+      require: ['./target/integration/test-helper']
+    }));
 });
 
 gulp.task('run', ['test'], function() {
@@ -113,7 +134,7 @@ gulp.task('run', ['test'], function() {
 });
 
 gulp.task('build', ['lint:server', 'jscpd:server', 'babel:server']);
-gulp.task('build_integration', ['lint:integration', 'jscpd:integration', 'babel:integration']);
+gulp.task('build-integration', ['lint:integration', 'jscpd:integration', 'babel:integration']);
 gulp.task('test', ['post-unit-test']);
 
 gulp.task('default', ['test']);

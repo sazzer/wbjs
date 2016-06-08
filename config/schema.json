@@ -9,5 +9,10 @@
       "doc": "The Database URL",
       "default": "",
       "env": "DATABASE_URL"
+    },
+    "port": {
+      "doc": "The port to listen on",
+      "default": 3000,
+      "env": "PORT"
     }
 }

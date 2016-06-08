@@ -2,16 +2,17 @@ import { DbHealthcheck} from './dbHealthcheck.plugin';
 
 /**
  * Generate the Glue Manifest to configure the server
+ * @param {Number} port The port number to listen on
  * @return {object} The manifest
  */
-export function manifest() : Object {
+export function manifest(port: number) : Object {
   return {
     server: {
 
     },
     connections: [
       {
-        port: 3000,
+        port: port,
         labels: ['web']
       }
     ],

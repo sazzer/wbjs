@@ -106,7 +106,7 @@ gulp.task('migrate:down', function(cb) {
   migrate('down', cb);
 });
 
-gulp.task('pre-integration-test', ['build-integration'], function(cb) {
+gulp.task('pre-integration-test', ['build', 'build-integration'], function(cb) {
   plugins.env({
     vars: {
       NODE_ENV: 'integration'

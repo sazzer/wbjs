@@ -12,27 +12,32 @@ export function seed(data: Object) {
   const dbUrl = config.get('database');
 
   return new Promise((resolve, reject) => {
-    pg.connect(dbUrl, (err, done) => {
+    pg.connect(dbUrl, (err, client, done) => {
       if (err) {
+        done();
         reject(err);
       } else {
-        resolve(done);
+        resolve({client, done});
       }
     })
-  }).then((db) => {
+  }).then(({client, done}) => {
     return new Promise((resolve, reject) => {
       cleaner({
         type: 'delete',
         skipTables: ['migrations']
-      }, db, (err, done) => {
+      }, client, (err, result) => {
+        done();
         if (err) {
           reject(err);
         } else {
-          resolve(done);
+          resolve(result);
         }
-      })
+      });
     })
   }).then(() => {
     return sqlFixtures.create(dbUrl, data);
+  }).then(() => {
+    sqlFixtures.destroy();
   });
+
 }

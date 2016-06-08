@@ -19,7 +19,7 @@ describe('worlds/finder', function() {
 
     describe('No filters, no pagination requirements', function() {
       const resultset = new ResultSet([
-        new World('123', 'Discworld', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment())
+        new World(123, 'Discworld', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment())
       ], 2, 0);
 
       beforeEach(function() {

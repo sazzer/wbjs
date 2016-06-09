@@ -67,6 +67,12 @@ function migrate(dir, cb) {
 });
 
 gulp.task('pre-unit-test', ['build'], function() {
+  plugins.env({
+    vars: {
+      NODE_ENV: 'development'
+    }
+  });
+
   return gulp.src(['target/server/**/*.js'])
     .pipe(plugins.istanbul({
       includeUntested: true,

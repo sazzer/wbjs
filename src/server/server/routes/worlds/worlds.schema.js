@@ -3,6 +3,7 @@ import { WORLD_SCHEMA, translateToApi as translateWorldToApi } from './world.sch
 import { PAGE_INFO_SCHEMA, translateToApi as translatePageInfoToApi } from '../common/pageInfo.schema';
 import { ResultSet } from '../../../service/resultset';
 import { World } from '../../../worlds/world';
+import { generateCursor } from '../common/cursor';
 
 const WORLD_EDGE = Joi.object().keys({
   resource: WORLD_SCHEMA.required(),
@@ -23,10 +24,11 @@ export const WORLDS_SCHEMA = Joi.object().keys({
 export function translateToApi(resultset: ResultSet<World>) : Object {
   return {
     edges: resultset.results.map((world, index) => {
+      const totalOffset = resultset.offset + index;
       return {
         resource: translateWorldToApi(world),
-        cursor: world.id,
-        offset: resultset.offset + index
+        cursor: generateCursor('worlds', totalOffset),
+        offset: totalOffset
       };
     }),
     pageInfo: translatePageInfoToApi(resultset)

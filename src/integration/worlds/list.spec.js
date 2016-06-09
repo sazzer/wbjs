@@ -40,7 +40,7 @@ describe('/api/worlds', function() {
         expect(edges).to.have.length(1);
         expect(edges[0]).to.deep.equals({
           offset: 0,
-          cursor: 1,
+          cursor: 'eyJ0eXBlIjoid29ybGRzIiwib2Zmc2V0IjowfQ==',
           resource: {
             id: 'id1',
             name: 'Discworld',

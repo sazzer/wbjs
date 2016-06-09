@@ -68,6 +68,7 @@
     "pg": "^4.5.6",
     "pg-promise": "^4.4.5",
     "source-map-support": "^0.4.0",
+    "squel": "^5.3.1",
     "trace-error": "0.0.7",
     "vision": "^4.1.0"
   },

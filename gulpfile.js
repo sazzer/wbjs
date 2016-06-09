@@ -140,7 +140,7 @@ gulp.task('run', ['test'], function() {
 });
 
 gulp.task('build', ['lint:server', 'jscpd:server', 'babel:server']);
-gulp.task('build-integration', ['lint:integration', 'jscpd:integration', 'babel:integration']);
+gulp.task('build-integration', ['lint:integration', 'babel:integration']);
 gulp.task('test', ['post-unit-test']);
 
 gulp.task('default', ['test']);

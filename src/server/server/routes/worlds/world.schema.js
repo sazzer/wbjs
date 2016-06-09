@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { World } from '../../../worlds/world';
+import { generateId } from '../common/id';
 
 export const WORLD_SCHEMA = Joi.object().keys({
   id: Joi.string().min(1).description('The unique ID of the World').required(),
@@ -15,7 +16,7 @@ export const WORLD_SCHEMA = Joi.object().keys({
  */
  export function translateToApi(world: World) : Object {
    return {
-     id: 'id' + world.id,
+     id: generateId('world', world.id),
      name: world.name,
      created: world.created.utc().format()
    };

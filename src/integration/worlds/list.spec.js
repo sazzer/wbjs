@@ -42,7 +42,7 @@ describe('/api/worlds', function() {
           offset: 0,
           cursor: 'eyJ0eXBlIjoid29ybGRzIiwib2Zmc2V0IjowfQ==',
           resource: {
-            id: 'id1',
+            id: 'eyJ0eXBlIjoid29ybGQiLCJpZCI6MX0=',
             name: 'Discworld',
             created: '2016-09-06T12:48:00Z'
           }

@@ -21,7 +21,7 @@ Feature: List worlds
     And I have no next page
     And I have no previous page
     And World 0 is:
-      | ID      | 1                                        |
+      | ID      | eyJ0eXBlIjoid29ybGQiLCJpZCI6MX0=         |
       | Name    | World 1                                  |
       | Created | 2016-09-06T12:48:00Z                     |
       | Offset  | 0                                        |

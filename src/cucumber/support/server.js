@@ -1,5 +1,6 @@
 import freeport from 'freeport';
 import fetch from 'node-fetch';
+import { expect } from 'chai';
 import { startServer as startTestServer } from '../../server/server/index.js'
 
 /** The actual server that we're testing */
@@ -31,6 +32,29 @@ module.exports = function() {
       });
 
       return this.lastResponse;
+    }
+
+    this.checkResultSetResponse = function(index, data, schema) {
+      const assertions = data.filter(({key, value}) => key in schema)
+        .map(({key, value}) => {
+          const transformed = schema[key].transformer ? schema[key].transformer(value) : value;
+
+          return {
+            field: schema[key].field,
+            value: transformed
+          }
+        })
+        .map(({field, value}) => {
+          return {
+            field: `body.edges[${index}].${field}`,
+            value
+          }
+        })
+        .map(({field, value}) => {
+          return expect(this.lastResponse).to.eventually.have.deep.property(field, value);
+        });
+
+        return Promise.all(assertions);
     }
   });
 

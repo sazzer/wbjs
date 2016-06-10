@@ -3,7 +3,7 @@ Feature: List worlds
   Scenario: No worlds to find
     # We start with a blank database
     When I list worlds
-    Then I get a succesful response
+    Then I get a successful response
     And I get 0 results
     And I have no next page
     And I have no previous page

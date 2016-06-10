@@ -1,4 +1,5 @@
 import freeport from 'freeport';
+import fetch from 'node-fetch';
 import { startServer as startTestServer } from '../../server/server/index.js'
 
 /** The actual server that we're testing */
@@ -8,6 +9,30 @@ let serverPromise;
 let serverUri;
 
 module.exports = function() {
+  this.Before(function() {
+    this.request = function(method: string, url: string, opts: ?Object = {}) {
+      const fullUrl = `${serverUri}${url}`;
+      console.log(`Making request to ${method} ${fullUrl}`);
+
+      this.lastResponse = fetch(fullUrl, {
+        method,
+        headers: opts.headers,
+        body: opts.body
+      }).then((response) => {
+        return response.json().then((body) => {
+          return {
+            response,
+            body,
+            status: response.status,
+            headers: response.headers,
+          }
+        });
+      });
+
+      return this.lastResponse;
+    }
+  });
+
   this.registerHandler('BeforeFeatures', function(event, callback) {
     console.log('Starting the server');
 

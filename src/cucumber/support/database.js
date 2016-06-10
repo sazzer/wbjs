@@ -6,7 +6,7 @@ import pgPromise from 'pg-promise';
 const pgp = pgPromise();
 
 module.exports = function() {
-  this.Before(function(scenario) {
+  this.Before(function() {
     const dbUrl = config.get('database');
 
     console.log(`Clearing the database at ${dbUrl}`);
@@ -34,10 +34,21 @@ module.exports = function() {
           }
         });
       })
-    })
+    });
+  });
+
+  this.Before(function() {
+    const dbUrl = config.get('database');
+
+    console.log('Creating seed method');
+    this.seed = function(seedData) {
+      console.log(seedData);
+      return sqlFixtures.create(dbUrl, seedData);
+    }
   });
 
   this.After(function(scenario) {
     pgp.end();
+    sqlFixtures.destroy();
   });
 }

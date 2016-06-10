@@ -10,6 +10,7 @@ let serverUri;
 
 module.exports = function() {
   this.Before(function() {
+    console.log('Creating request method');
     this.request = function(method: string, url: string, opts: ?Object = {}) {
       const fullUrl = `${serverUri}${url}`;
       console.log(`Making request to ${method} ${fullUrl}`);

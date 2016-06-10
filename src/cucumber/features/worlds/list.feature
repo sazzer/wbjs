@@ -16,7 +16,7 @@ Feature: List worlds
       | Created | 2016-09-06T12:48:00Z                 |
       | Updated | 2016-09-06T12:48:00Z                 |
     When I list worlds
-    Then I get a successful result
+    Then I get a successful response
     And I get 1 result
     And I have no next page
     And I have no previous page

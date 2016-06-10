@@ -18,7 +18,7 @@ Feature: List worlds
     | Updated | 2016-09-06T12:48:00Z                 | 2016-04-06T16:57:00Z                 |
   When I list worlds
   Then I get a successful response
-  And I get 2 result
+  And I get 2 results
   And I have no next page
   And I have no previous page
   And World 0 is:
@@ -43,7 +43,7 @@ Scenario: Two worlds to find, cursor based pagination from second record
     | Updated | 2016-09-06T12:48:00Z                 | 2016-04-06T16:57:00Z                 |
   When I list 10 worlds starting from cursor "eyJ0eXBlIjoid29ybGRzIiwib2Zmc2V0IjowfQ=="
   Then I get a successful response
-  And I get 1 result
+  And I get 2 results
   And I have no next page
   And I have a previous page
   And World 0 is:
@@ -62,7 +62,7 @@ Scenario: Two worlds to find, offset based pagination from second record
   | Updated | 2016-09-06T12:48:00Z                 | 2016-04-06T16:57:00Z                 |
   When I list 10 worlds starting from offset "1"
   Then I get a successful response
-  And I get 1 result
+  And I get 2 results
   And I have no next page
   And I have a previous page
   And World 0 is:
@@ -79,9 +79,9 @@ Scenario: Two worlds to find, page based pagination from second record
   | Version | bf795571-d47b-4150-a84f-fbf88997c891 | 18c64b31-53e2-4161-8836-58c89e08dcd7 |
   | Created | 2016-09-06T12:48:00Z                 | 2016-04-06T16:57:00Z                 |
   | Updated | 2016-09-06T12:48:00Z                 | 2016-04-06T16:57:00Z                 |
-  When I list 10 worlds starting from page "1"
+  When I list 1 worlds starting from page "1"
   Then I get a successful response
-  And I get 1 result
+  And I get 2 results
   And I have no next page
   And I have a previous page
   And World 0 is:
@@ -100,9 +100,9 @@ Scenario: Two worlds to find, only getting first record
   | Updated | 2016-09-06T12:48:00Z                 | 2016-04-06T16:57:00Z                 |
   When I list 1 worlds starting from offset "0"
   Then I get a successful response
-  And I get 1 result
-  And I have no next page
-  And I have a previous page
+  And I get 2 results
+  And I have a next page
+  And I have no previous page
   And World 0 is:
   | ID      | eyJ0eXBlIjoid29ybGQiLCJpZCI6MH0=         |
   | Name    | World 2                                  |

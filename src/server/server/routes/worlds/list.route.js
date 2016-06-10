@@ -1,4 +1,5 @@
 import Joi  from 'joi'
+import { extractPaginationDetails } from '../pagination';
 import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
 
@@ -23,7 +24,8 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      findAllWorlds()
+      const pagination = extractPaginationDetails(request);
+      findAllWorlds({pagination})
         .then(translateToApi)
         .then(reply)
         .catch(console.log);

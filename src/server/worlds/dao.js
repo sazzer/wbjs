@@ -5,9 +5,10 @@ import { connectToDb, queryBuilder } from '../db';
 
 /**
  * Find all of the worlds that match the given requirements
+ * @param {Object} pagina The pagination details to request
  * @return {Promise} A promise for the resultset of matching worlds
  */
-export function find() : Promise<ResultSet<World>> {
+export function find({pagination}) : Promise<ResultSet<World>> {
   const query = queryBuilder().select()
     .from('worlds')
     .field('id')
@@ -18,13 +19,22 @@ export function find() : Promise<ResultSet<World>> {
     .order('updated')
     .order('created')
     .order('id')
+    .offset(pagination.offset)
+    .limit(pagination.count)
+    .toString();
+  const countQuery = queryBuilder().select()
+    .from('worlds')
+    .field('count(*)')
     .toString();
 
-  return connectToDb().any(query)
-    .then((worlds) =>
-      worlds.map((world) =>
-        new World(world.id, world.name, world.version, moment(world.created), moment(world.updated))
-      )
+  return connectToDb().one(countQuery)
+    .then((count) =>
+      connectToDb().any(query)
+        .then((worlds) =>
+          worlds.map((world) =>
+            new World(world.id, world.name, world.version, moment(world.created), moment(world.updated))
+          )
+        )
+        .then((worlds) => new ResultSet(worlds, Number.parseInt(count.count), pagination.offset))
     )
-    .then((worlds) => new ResultSet(worlds, worlds.length, 0))
 }

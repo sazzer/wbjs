@@ -5,10 +5,11 @@ import { find } from './dao';
 
 /**
  * Mechanism to find all of the worlds in the system
+ * @param {Object} pagina The pagination details to request
  * @return {Promise} A promise for the worlds that match the search
  */
-export function findAllWorlds() : Promise<ResultSet<World>> {
-  return find();
+export function findAllWorlds({pagination}) : Promise<ResultSet<World>> {
+  return find({pagination});
 }
 /**
  * Mechanism to find a single world by the given ID

@@ -12,26 +12,7 @@ const SEED_DATA_COLUMN_MAP = {
 module.exports = function() {
   this.Given('I have worlds with:', function(datatable) {
     const parsed = parseTall(datatable);
-    const seedData = {
-      worlds: parsed.map((record) => {
-        const seedRecord = {};
-        record.filter(({key}) => key in SEED_DATA_COLUMN_MAP)
-          .map(({key, value}) => {
-            const transformed = SEED_DATA_COLUMN_MAP[key].transformer ? SEED_DATA_COLUMN_MAP[key].transformer(value) : value;
-
-            return {
-              key: SEED_DATA_COLUMN_MAP[key].column,
-              value: transformed
-            }
-          })
-          .forEach(({key, value}) => {
-            seedRecord[key] = value;
-          });
-        return seedRecord;
-      })
-    };
-
-    return this.seed(seedData);
+    return this.seed('worlds', parsed, SEED_DATA_COLUMN_MAP);
   })
 
   this.When('I list worlds', function() {

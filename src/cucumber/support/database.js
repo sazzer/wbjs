@@ -41,8 +41,26 @@ module.exports = function() {
     const dbUrl = config.get('database');
 
     console.log('Creating seed method');
-    this.seed = function(seedData) {
-      console.log(seedData);
+    this.seed = function(table, data, schema) {
+      const seedData = {
+        [table]: data.map((record) => {
+          const seedRecord = {};
+          record.filter(({key}) => key in schema)
+            .map(({key, value}) => {
+              const transformed = schema[key].transformer ? schema[key].transformer(value) : value;
+
+              return {
+                key: schema[key].column,
+                value: transformed
+              }
+            })
+            .forEach(({key, value}) => {
+              seedRecord[key] = value;
+            });
+          return seedRecord;
+        })
+      };
+
       return sqlFixtures.create(dbUrl, seedData);
     }
   });

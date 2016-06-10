@@ -20,7 +20,7 @@ Feature: List worlds
     And I get 1 result
     And I have no next page
     And I have no previous page
-    And Result 0 is:
+    And World 0 is:
       | ID      | 1                                        |
       | Name    | World 1                                  |
       | Created | 2016-09-06T12:48:00Z                     |

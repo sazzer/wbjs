@@ -1,5 +1,6 @@
 import freeport from 'freeport';
 import fetch from 'node-fetch';
+import URI from 'urijs';
 import { expect } from 'chai';
 import { startServer as startTestServer } from '../../server/server/index.js'
 
@@ -9,11 +10,22 @@ let serverPromise;
 /** The URI referring to the server */
 let serverUri;
 
+/**
+ * Build the URL to actually call
+ * @param {String} url the relative URL to call
+ * @param {Object} params The query string parameters to call, if any
+ * @return {String} the full URL to call
+ */
+function buildUrl(url: string, params: ?Object = {}): string {
+  const fullUrl = new URI(serverUri + url).query(params);
+  return fullUrl.toString();
+}
+
 module.exports = function() {
   this.Before(function() {
     console.log('Creating request method');
     this.request = function(method: string, url: string, opts: ?Object = {}) {
-      const fullUrl = `${serverUri}${url}`;
+      const fullUrl = buildUrl(url, opts.params);
       console.log(`Making request to ${method} ${fullUrl}`);
 
       this.lastResponse = fetch(fullUrl, {

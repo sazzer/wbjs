@@ -27,6 +27,33 @@ module.exports = function() {
     return this.request('get', '/api/worlds');
   });
 
+  this.When(/^I list (\d+) worlds starting from cursor "([^"]+)"$/, function(count, cursor) {
+    return this.request('get', '/api/worlds', {
+      params: {
+        count,
+        cursor
+      }
+    });
+  });
+
+  this.When(/^I list (\d+) worlds starting from offset "(\d+)"$/, function(count, offset) {
+    return this.request('get', '/api/worlds', {
+      params: {
+        count,
+        offset
+      }
+    });
+  });
+
+  this.When(/^I list (\d+) worlds starting from page "(\d+)"$/, function(count, page) {
+    return this.request('get', '/api/worlds', {
+      params: {
+        count,
+        page
+      }
+    });
+  });
+
   this.Then(/World (\d+) is:/, function(index, datatable) {
     const parsed = parseOneTall(datatable);
 

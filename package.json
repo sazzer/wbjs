@@ -45,7 +45,8 @@
     "postgres-cleaner": "^0.1.2",
     "remap-istanbul": "^0.6.4",
     "sinon": "^1.17.4",
-    "sql-fixtures": "^1.0.0"
+    "sql-fixtures": "^1.0.0",
+    "urijs": "^1.18.1"
   },
   "dependencies": {
     "blipp": "^2.3.0",

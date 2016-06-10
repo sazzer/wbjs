@@ -7,6 +7,11 @@ var gulp = require('gulp'),
   convict = require('convict'),
   schema = require('./config/schema.json');
 
+/**
+ * Build a task for linking a source area
+ * @param {String} target the name of the source area
+ * @return {Function} the task function
+ */
 function buildLint(target) {
   return function() {
     return gulp.src(['src/' + target + '/**/*.js'])
@@ -16,6 +21,11 @@ function buildLint(target) {
   };
 }
 
+/**
+ * Build a task for running JSCPD on a source area
+ * @param {String} target the name of the source area
+ * @return {Function} the task function
+ */
 function buildJscpd(target) {
   return function() {
     return gulp.src(['src/' + target + '/**/*.js'])
@@ -23,6 +33,11 @@ function buildJscpd(target) {
   }
 }
 
+/**
+ * Build a task for running Babel on a source area
+ * @param {String} target the name of the source area
+ * @return {Function} the task function
+ */
 function buildBabel(target) {
   return function() {
     return gulp.src(['src/' + target + '/**/*.js'])
@@ -36,6 +51,12 @@ function buildBabel(target) {
   }
 }
 
+/**
+ * Load a configuration parameter with the given name.
+ * This reloads the configuration every time to account for changes caused by the tasks
+ * @param {String} name The name of the config parameter
+ * @return {String} The config parameter
+ */
 function loadConfig(name) {
   var conf = convict(schema);
 
@@ -46,6 +67,11 @@ function loadConfig(name) {
   return conf.get(name);
 }
 
+/**
+ * Perform a database migration
+ * @param {String} dir The direction to migrate. Either 'up' or 'down'
+ * @param {Function} cb The callback for after the migration is run
+ */
 function migrate(dir, cb) {
   plugins.env({
     vars: {
@@ -60,12 +86,15 @@ function migrate(dir, cb) {
   });
 }
 
-['server', 'integration'].forEach(function(target) {
+// Set up the build tasks for the given target
+['server', 'cucumber'].forEach(function(target) {
   gulp.task('lint:' + target, buildLint(target));
   gulp.task('jscpd:' + target, buildJscpd(target));
   gulp.task('babel:' + target, buildBabel(target));
+  gulp.task('build:' + target, ['lint:' + target, 'jscpd:' + target, 'build:' + target]);
 });
 
+// Unit Testing Tasks
 gulp.task('pre-unit-test', ['build'], function() {
   plugins.env({
     vars: {
@@ -104,6 +133,7 @@ gulp.task('post-unit-test', ['unit-test'], function() {
    }));
 });
 
+// Database Migration Tasks
 gulp.task('migrate:up', function(cb) {
   migrate('up', cb);
 });
@@ -112,7 +142,8 @@ gulp.task('migrate:down', function(cb) {
   migrate('down', cb);
 });
 
-gulp.task('pre-integration-test', ['build', 'build-integration'], function(cb) {
+// Integration Test Tasks
+gulp.task('pre-integration-test', ['build', 'build-cucumber'], function(cb) {
   plugins.env({
     vars: {
       NODE_ENV: 'integration'
@@ -123,14 +154,19 @@ gulp.task('pre-integration-test', ['build', 'build-integration'], function(cb) {
 });
 
 gulp.task('integration-test', ['pre-integration-test'], function() {
-  return gulp.src(['target/integration/**/*.spec.js'])
-    .pipe(plugins.mocha({
-      ui: 'bdd',
-      reporter: 'spec',
-      require: ['./target/integration/test-helper']
+  return gulp.src('target/cucumber/features/**/*.feature')
+    .pipe(plugins.cucumber({
+      steps: 'target/cucumber/steps/**/*.step.js',
+      support: 'target/cucumber/support/**/*.js'
     }));
 });
 
+gulp.task('copy-cucumber-features', function() {
+  return gulp.src('src/cucumber/features/**/*.feature')
+    .pipe(gulp.dest('target/cucumber/features'));
+})
+
+// Misc Tasks
 gulp.task('run', ['test'], function() {
   plugins.nodemon({
     script: 'target/server/main.js',
@@ -140,7 +176,7 @@ gulp.task('run', ['test'], function() {
 });
 
 gulp.task('build', ['lint:server', 'jscpd:server', 'babel:server']);
-gulp.task('build-integration', ['lint:integration', 'babel:integration']);
+gulp.task('build-cucumber', ['lint:cucumber', 'jscpd:cucumber', 'babel:cucumber', 'copy-cucumber-features']);
 gulp.task('test', ['post-unit-test']);
 
 gulp.task('default', ['test']);

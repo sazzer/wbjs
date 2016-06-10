@@ -15,6 +15,9 @@ export function find() : Promise<ResultSet<World>> {
     .field('version')
     .field('created')
     .field('updated')
+    .order('updated')
+    .order('created')
+    .order('id')
     .toString();
 
   return connectToDb().any(query)

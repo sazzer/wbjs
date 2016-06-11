@@ -9,7 +9,7 @@ const CURSOR_ENCODING = 'base64';
  * @param {Number} offset The offset in the resultset
  * @return {String} the cursor
  */
-export function generateCursor(type: string, offset: number) : string {
+export function generateCursor(type, offset) {
   const rawCursor = JSON.stringify({type, offset});
   const encodedCursor = new Buffer(rawCursor, STRING_ENCODING).toString(CURSOR_ENCODING);
   return encodedCursor;
@@ -20,7 +20,7 @@ export function generateCursor(type: string, offset: number) : string {
  * @param {String} cursor The cursor to decode
  * @return {Object} the decoded cursor details
  */
-export function decodeCursor(cursor: string) : Object {
+export function decodeCursor(cursor) {
   const decodedCursor = new Buffer(cursor, CURSOR_ENCODING).toString(STRING_ENCODING);
   const cursorDetails = JSON.parse(decodedCursor);
   return cursorDetails;

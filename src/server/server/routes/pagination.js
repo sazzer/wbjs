@@ -5,7 +5,7 @@ import { decodeCursor } from './common/cursor';
  * @param {Request} request The request
  * @return {Object} The pagination details
  */
-export function extractPaginationDetails(request) : Object {
+export function extractPaginationDetails(request) {
   const count = Number.parseInt(request.query.count) || 10;
 
   const offset = Number.parseInt(request.query.offset);

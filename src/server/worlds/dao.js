@@ -8,7 +8,7 @@ import { connectToDb, queryBuilder } from '../db';
  * @param {Object} pagina The pagination details to request
  * @return {Promise} A promise for the resultset of matching worlds
  */
-export function find({pagination}) : Promise<ResultSet<World>> {
+export function find({pagination}) {
   const query = queryBuilder().select()
     .from('worlds')
     .field('id')

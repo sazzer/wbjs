@@ -16,7 +16,7 @@ let serverUri;
  * @param {Object} params The query string parameters to call, if any
  * @return {String} the full URL to call
  */
-function buildUrl(url: string, params: ?Object = {}): string {
+function buildUrl(url, params = {}) {
   const fullUrl = new URI(serverUri + url).query(params);
   return fullUrl.toString();
 }
@@ -24,7 +24,7 @@ function buildUrl(url: string, params: ?Object = {}): string {
 module.exports = function() {
   this.Before(function() {
     console.log('Creating request method');
-    this.request = function(method: string, url: string, opts: ?Object = {}) {
+    this.request = function(method, url, opts = {}) {
       const fullUrl = buildUrl(url, opts.params);
       console.log(`Making request to ${method} ${fullUrl}`);
 

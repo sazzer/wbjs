@@ -7,7 +7,7 @@ import GoodWinston from 'good-winston';
  * @param {Number} port The port number to listen on
  * @return {object} The manifest
  */
-export function manifest(port: number) : Object {
+export function manifest(port) {
   return {
     server: {
 

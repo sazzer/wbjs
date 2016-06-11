@@ -9,7 +9,7 @@ const ID_ENCODING = 'base64';
  * @param {*} id The Internal ID in the resource
  * @return {String} the id
  */
-export function generateId(type: string, id: any) : string {
+export function generateId(type, id) {
   const rawId = JSON.stringify({type, id});
   const encodedId = new Buffer(rawId, STRING_ENCODING).toString(ID_ENCODING);
   return encodedId;
@@ -20,7 +20,7 @@ export function generateId(type: string, id: any) : string {
  * @param {String} id The ID to decode
  * @return {Object} the decoded ID details
  */
-export function decodeId(id: string) : Object {
+export function decodeId(id) {
   const decodedId = new Buffer(id, ID_ENCODING).toString(STRING_ENCODING);
   const idDetails = JSON.parse(decodedId);
   return idDetails;

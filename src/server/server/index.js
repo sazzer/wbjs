@@ -6,7 +6,7 @@ import { manifest } from './manifest';
  * @param {Number} port The port number to listen on
  * @return {Promise} A promise for the running server
  */
-export function startServer(port: number) : Promise {
+export function startServer(port) {
     return new Promise((resolve, reject) => {
       const options = {
         relativeTo: __dirname

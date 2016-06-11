@@ -13,7 +13,7 @@ export class World {
    * @param {moment} created When the World was created
    * @param {moment} updated When the World was last updated
    */
-  constructor(id: number, name: string, version: string, created: moment, updated: moment) {
+  constructor(id, name, version, created, updated) {
     this._state = Immutable.fromJS({
       id,
       name,
@@ -27,7 +27,7 @@ export class World {
    * Get the ID of the World
    * @return {String} the ID of the World
    */
-  get id() : number {
+  get id() {
     return this._state.get('id');
   }
 
@@ -35,7 +35,7 @@ export class World {
    * Get the name of the World
    * @return {String} the name of the World
    */
-  get name() : string {
+  get name() {
     return this._state.get('name');
   }
 
@@ -43,7 +43,7 @@ export class World {
    * Get the version of the World
    * @return {String} the version of the World
    */
-  get version() : string {
+  get version() {
     return this._state.get('version');
   }
 
@@ -51,7 +51,7 @@ export class World {
    * Get when the world was created
    * @return {moment} when the world was created
    */
-  get created() : moment {
+  get created() {
     return this._state.get('created');
   }
 
@@ -59,7 +59,7 @@ export class World {
    * Get when the world was last updated
    * @return {moment} when the world was last updated
    */
-  get updated() : moment {
+  get updated() {
     return this._state.get('updated');
   }
 }

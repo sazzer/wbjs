@@ -21,7 +21,7 @@ export const WORLDS_SCHEMA = Joi.object().keys({
  * @param {ResultSet} resultset The resultset to translate
  * @return {Object} the translated response
  */
-export function translateToApi(resultset: ResultSet<World>) : Object {
+export function translateToApi(resultset) {
   return {
     edges: resultset.results.map((world, index) => {
       const totalOffset = resultset.offset + index;

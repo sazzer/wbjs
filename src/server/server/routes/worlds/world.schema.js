@@ -14,7 +14,7 @@ export const WORLD_SCHEMA = Joi.object().keys({
  * @param {World} world The world to translate
  * @return {Object} the translated response
  */
- export function translateToApi(world: World) : Object {
+ export function translateToApi(world) {
    return {
      id: generateId('world', world.id),
      name: world.name,

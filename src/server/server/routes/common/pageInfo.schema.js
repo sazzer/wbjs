@@ -13,7 +13,7 @@ export const PAGE_INFO_SCHEMA = Joi.object().keys({
  * @param {Resultset} resultset The resultset to translate
  * @return {Object} the translated response
  */
-export function translateToApi<T>(resultset: ResultSet<T>) : Object {
+export function translateToApi(resultset) {
   const hasPreviousPage = (resultset.offset > 0);
   const hasNextPage = (resultset.offset + resultset.results.size < resultset.count);
 

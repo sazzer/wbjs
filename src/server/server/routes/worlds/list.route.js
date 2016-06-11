@@ -4,7 +4,7 @@ import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
 import { getLogger } from '../../../log';
 
-const logger = getLogger();
+const logger = getLogger('worlds:list');
 
 export const routes = {
   method: 'GET',

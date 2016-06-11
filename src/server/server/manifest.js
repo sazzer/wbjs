@@ -36,7 +36,7 @@ export function manifest(port) {
               response: '*',
               log: '*',
               error: '*'
-            }, getLogger())
+            }, getLogger('hapi'))
           ]
         }
       }

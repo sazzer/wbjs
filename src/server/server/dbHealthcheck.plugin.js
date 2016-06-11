@@ -1,7 +1,7 @@
 import { connectToDb } from '../db';
 import { getLogger } from '../log';
 
-const logger = getLogger();
+const logger = getLogger('dbHealthcheck');
 
 /**
  * Healthcheck for ensuring that we can talk to the database

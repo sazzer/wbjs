@@ -1,4 +1,4 @@
-import { generateCursor, decodeCursor } from './cursor';
+import { generateCursor, decodeCursor, InvalidCursorError } from './cursor';
 import { expect } from 'chai';
 
 describe('Cursor', function() {
@@ -24,10 +24,20 @@ describe('Cursor', function() {
     })
 
     describe('Invalid cursor', function() {
-      it('Fails on an invalid string');
-      it('Fails on an empty string');
-      it('Fails if the decoded string contains extra fields');
-      it('Fails if the decoded string is missing fields');
+      it('Fails on an invalid string', function() {
+        expect(() => {decodeCursor('thisIsAnInvalidString')}).to.throw(InvalidCursorError);
+      });
+      it('Fails on an empty string', function() {
+        expect(() => {decodeCursor('')}).to.throw(InvalidCursorError);
+      });
+      it('Fails if the decoded string contains extra fields', function() {
+        expect(() => {decodeCursor('eyJ0eXBlIjoicmVzdWx0cyIsIm9mZnNldCI6NSwiYW5zd2VyIjo0Mn0K')}).to.throw(InvalidCursorError); // {"type":"results","offset":5,"answer":42}
+
+      });
+      it('Fails if the decoded string is missing fields', function() {
+        expect(() => {decodeCursor('eyJ0eXBlIjoicmVzdWx0cyJ9Cg==')}).to.throw(InvalidCursorError); // {"type":"results"}
+        expect(() => {decodeCursor('eyJvZmZzZXQiOjV9Cg==')}).to.throw(InvalidCursorError); // {"offset":5}
+      });
     })
   })
 })

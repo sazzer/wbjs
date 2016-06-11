@@ -43,7 +43,7 @@ function buildBabel(target) {
     return gulp.src(['src/' + target + '/**/*.js'])
       .pipe(plugins.sourcemaps.init())
       .pipe(plugins.babel({
-        plugins: ['rewire'],
+        plugins: ['rewire', ['transform-builtin-extend', {globals: ['Error']}]],
         presets: ['es2015']
       }))
       .pipe(plugins.sourcemaps.write('.'))

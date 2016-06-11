@@ -1,11 +1,13 @@
 require('source-map-support').install();
 import { startServer } from './server/index.js'
 import config from './config';
+import { getLogger } from './log';
+
+const logger = getLogger();
 
 startServer(config.get('port'))
   .then((server) => {
-    console.log(`Started server on ${server.info.uri}`);
+    logger.log('info', 'Started server', {uri: server.info.uri});
   }).catch((err) => {
-    console.log('Failed to start server');
-    console.log(err);
+    logger.log('error' ,'Failed to start server', err);
   });

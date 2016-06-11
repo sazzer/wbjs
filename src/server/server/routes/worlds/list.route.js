@@ -2,6 +2,9 @@ import Joi  from 'joi'
 import { extractPaginationDetails } from '../pagination';
 import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
+import { getLogger } from '../../../log';
+
+const logger = getLogger();
 
 export const routes = {
   method: 'GET',
@@ -28,7 +31,9 @@ export const routes = {
       findAllWorlds({pagination})
         .then(translateToApi)
         .then(reply)
-        .catch(console.log);
+        .catch((err) => {
+            logger.log('error', 'Error listing worlds', err);
+        });
     }
   }
 }

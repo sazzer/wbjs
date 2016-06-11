@@ -53,9 +53,10 @@
     "boom": "^3.2.1",
     "convict": "^1.4.0",
     "glue": "^3.2.1",
-    "good": "^7.0.1",
+    "good": "^6.6.3",
     "good-console": "^6.1.2",
     "good-squeeze": "^3.0.1",
+    "good-winston": "^1.0.0",
     "hapi": "^13.4.1",
     "hapi-and-healthy": "^4.4.2",
     "hapi-glob-routes": "0.0.1",
@@ -73,7 +74,8 @@
     "source-map-support": "^0.4.0",
     "squel": "^5.3.1",
     "trace-error": "0.0.7",
-    "vision": "^4.1.0"
+    "vision": "^4.1.0",
+    "winston": "^2.2.0"
   },
   "eslintConfig": ".eslintrc"
 }

@@ -1,4 +1,7 @@
 import { connectToDb } from '../db';
+import { getLogger } from '../log';
+
+const logger = getLogger();
 
 /**
  * Healthcheck for ensuring that we can talk to the database
@@ -10,7 +13,7 @@ export function DbHealthcheck(cb : (status: boolean, msg: any) => void) {
       cb(false, 'DB Ok');
     })
     .catch((err) => {
-      console.log(err);
+      logger.log('error', 'Error checking database health', err);
       cb(true, err);
     });
 }

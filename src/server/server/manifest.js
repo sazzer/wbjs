@@ -1,4 +1,6 @@
 import { DbHealthcheck} from './dbHealthcheck.plugin';
+import { getLogger } from '../log';
+import GoodWinston from 'good-winston';
 
 /**
  * Generate the Glue Manifest to configure the server
@@ -26,24 +28,16 @@ export function manifest(port: number) : Object {
       plugin: {
         register: 'good',
         options: {
-          ops: {
-            interval: 30000
-          },
-          reporters: {
-            console: [{
-              module: 'good-squeeze',
-              name: 'Squeeze',
-              args: [{
-                ops: '*',
-                log: '*',
-                request: '*',
-                error: '*',
-                response: '*'
-              }]
-            }, {
-              module: 'good-console'
-            }, 'stdout']
-          }
+          opsInterval: 30000,
+          reporters: [
+            new GoodWinston({
+              ops: '*',
+              request: '*',
+              response: '*',
+              log: '*',
+              error: '*'
+            }, getLogger())
+          ]
         }
       }
     }, {

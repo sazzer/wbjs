@@ -4,7 +4,7 @@ import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
 import { getLogger } from '../../../log';
 import { InvalidCursorError } from '../common/cursor';
-import boom from 'boom';
+import Boom from 'boom';
 
 const logger = getLogger('worlds:list');
 
@@ -29,28 +29,27 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      new Promise((resolve, reject) => {
-        resolve(extractPaginationDetails(request));
-      })
+      reply(new Promise((resolve, reject) => resolve(extractPaginationDetails(request)))
         .then((pagination) => findAllWorlds({pagination}))
         .then(translateToApi)
         .then(reply)
         .catch((err) => {
           logger.log('error', 'Error listing worlds', err);
+          let response;
           if (err instanceof InvalidCursorError) {
-            const response = reply({
-              error: 'INVALID_CURSOR',
+            response = Boom.badRequest();
+            response.output.payload = {
+              code: 'INVALID_CURSOR',
               message: err.message
-            });
-            response.statusCode = 400;
+            };
           } else {
-            const response = reply({
-              error: 'INTERNAL_ERROR'
-            });
-            response.statusCode = 500;
+            response = Boom.badImplementation();
+            response.output.payload = {
+              code: 'INTERNAL_ERROR'
+            };
           }
-        })
-
+          return response;
+        }));
     }
   }
 }

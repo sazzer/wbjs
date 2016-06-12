@@ -4,7 +4,7 @@ import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
 import { getLogger } from '../../../log';
 import { InvalidCursorError } from '../common/cursor';
-import Boom from 'boom';
+import { translateError } from '../errors';
 
 const logger = getLogger('worlds:list');
 
@@ -35,20 +35,7 @@ export const routes = {
         .then(reply)
         .catch((err) => {
           logger.log('error', 'Error listing worlds', err);
-          let response;
-          if (err instanceof InvalidCursorError) {
-            response = Boom.badRequest();
-            response.output.payload = {
-              code: 'INVALID_CURSOR',
-              message: err.message
-            };
-          } else {
-            response = Boom.badImplementation();
-            response.output.payload = {
-              code: 'INTERNAL_ERROR'
-            };
-          }
-          return response;
+          return translateError(err);
         }));
     }
   }

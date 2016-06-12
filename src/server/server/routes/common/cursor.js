@@ -1,3 +1,5 @@
+import Boom from 'boom';
+
 /** Encoding to use for the decoded cursor string */
 const STRING_ENCODING = 'utf8';
 /** Encoding to use for the encoded cursor string */
@@ -13,6 +15,16 @@ export class InvalidCursorError extends Error {
    */
   constructor(message) {
     super(message);
+  }
+
+  /**
+   * Convert the error to a Boom error Object
+   * @return {Boom} the Boom error Object
+   */
+  toBoom() {
+    const response = Boom.create(400, this.message);
+    response.output.payload.error = 'INVALID_CURSOR';
+    return response;
   }
 }
 

@@ -3,6 +3,8 @@ import { extractPaginationDetails } from '../pagination';
 import { WORLDS_SCHEMA, translateToApi } from './worlds.schema'
 import { findAllWorlds } from '../../../worlds/finder';
 import { getLogger } from '../../../log';
+import { InvalidCursorError } from '../common/cursor';
+import boom from 'boom';
 
 const logger = getLogger('worlds:list');
 
@@ -27,13 +29,28 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      const pagination = extractPaginationDetails(request);
-      findAllWorlds({pagination})
+      new Promise((resolve, reject) => {
+        resolve(extractPaginationDetails(request));
+      })
+        .then((pagination) => findAllWorlds({pagination}))
         .then(translateToApi)
         .then(reply)
         .catch((err) => {
-            logger.log('error', 'Error listing worlds', err);
-        });
+          logger.log('error', 'Error listing worlds', err);
+          if (err instanceof InvalidCursorError) {
+            const response = reply({
+              error: 'INVALID_CURSOR',
+              message: err.message
+            });
+            response.statusCode = 400;
+          } else {
+            const response = reply({
+              error: 'INTERNAL_ERROR'
+            });
+            response.statusCode = 500;
+          }
+        })
+
     }
   }
 }

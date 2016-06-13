@@ -29,7 +29,10 @@ function buildLint(target) {
 function buildJscpd(target) {
   return function() {
     return gulp.src(['src/' + target + '/**/*.js'])
-      .pipe(plugins.jscpd());
+      .pipe(plugins.jscpd({
+        'min-lines': 20,
+        verbose: true
+      }));
   }
 }
 

@@ -109,3 +109,9 @@ Scenario: Two worlds to find, only getting first record
   | Created | 2016-04-06T16:57:00Z                     |
   | Offset  | 0                                        |
   | Cursor  | eyJ0eXBlIjoid29ybGRzIiwib2Zmc2V0IjowfQ== |
+
+Scenario: Providing an invalid cursor
+  When I list 10 worlds starting from cursor "I'mInvalid"
+  Then I get an error response with:
+    | Error Code  | INVALID_CURSOR |
+    | Status Code | Bad Request    |

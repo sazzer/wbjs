@@ -15,8 +15,6 @@ export function getLogger(name = 'worldbuilder') {
         })
       ]
   });
-
-  logger.level = 'debug';
   
   return logger;
 }

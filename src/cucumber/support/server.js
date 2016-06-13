@@ -68,6 +68,23 @@ module.exports = function() {
 
         return Promise.all(assertions);
     }
+
+    this.checkCompleteResponse = function(data, schema) {
+      const assertions = data.filter(({key, value}) => key in schema)
+        .map(({key, value}) => {
+          const transformed = schema[key].transformer ? schema[key].transformer(value) : value;
+
+          return {
+            field: schema[key].field,
+            value: transformed
+          }
+        })
+        .map(({field, value}) => {
+          return expect(this.lastResponse).to.eventually.have.deep.property(field, value);
+        });
+
+        return Promise.all(assertions);
+    }
   });
 
   this.registerHandler('BeforeFeatures', function(event, callback) {

@@ -160,7 +160,17 @@ gulp.task('integration-test', ['pre-integration-test'], function() {
   return gulp.src('target/cucumber/features/**/*.feature')
     .pipe(plugins.cucumber({
       steps: 'target/cucumber/steps/**/*.step.js',
-      support: 'target/cucumber/support/**/*.js'
+      support: 'target/cucumber/support/**/*.js',
+      tags: '~@wip'
+    }));
+});
+
+gulp.task('wip-integration-test', ['pre-integration-test'], function() {
+  return gulp.src('target/cucumber/features/**/*.feature')
+    .pipe(plugins.cucumber({
+      steps: 'target/cucumber/steps/**/*.step.js',
+      support: 'target/cucumber/support/**/*.js',
+      tags: '@wip'
     }));
 });
 

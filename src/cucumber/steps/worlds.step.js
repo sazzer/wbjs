@@ -54,6 +54,10 @@ module.exports = function() {
     });
   });
 
+  this.When(/^I retrieve the world with ID "(.+)"$/, function(id) {
+    return this.request('get', '/api/worlds/' + id);
+  });
+
   this.Then(/World (\d+) is:/, function(index, datatable) {
     const parsed = parseOneTall(datatable);
 

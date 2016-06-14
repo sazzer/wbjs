@@ -32,7 +32,6 @@ describe('Cursor', function() {
       });
       it('Fails if the decoded string contains extra fields', function() {
         expect(() => {decodeCursor('eyJ0eXBlIjoicmVzdWx0cyIsIm9mZnNldCI6NSwiYW5zd2VyIjo0Mn0K')}).to.throw(InvalidCursorError); // {"type":"results","offset":5,"answer":42}
-
       });
       it('Fails if the decoded string is missing fields', function() {
         expect(() => {decodeCursor('eyJ0eXBlIjoicmVzdWx0cyJ9Cg==')}).to.throw(InvalidCursorError); // {"type":"results"}

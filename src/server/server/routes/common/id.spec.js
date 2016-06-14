@@ -1,4 +1,4 @@
-import { generateId, decodeId } from './id';
+import { generateId, decodeId, InvalidIDError } from './id';
 import { expect } from 'chai';
 
 describe('ID', function() {
@@ -24,10 +24,19 @@ describe('ID', function() {
     })
 
     describe('Invalid id', function() {
-      it('Fails on an invalid string');
-      it('Fails on an empty string');
-      it('Fails if the decoded string contains extra fields');
-      it('Fails if the decoded string is missing fields');
+      it('Fails on an invalid string', function() {
+        expect(() => {decodeId('thisIsAnInvalidString')}).to.throw(InvalidIDError);
+      });
+      it('Fails on an empty string', function() {
+        expect(() => {decodeId('')}).to.throw(InvalidIDError);
+      });
+      it('Fails if the decoded string contains extra fields', function() {
+        expect(() => {decodeId('eyJ0eXBlIjoicmVzdWx0cyIsImlkIjo1LCJhbnN3ZXIiOjQyfQo=')}).to.throw(InvalidIDError); // {"type":"results","id":5,"answer":42}
+      });
+      it('Fails if the decoded string is missing fields', function() {
+        expect(() => {decodeId('eyJ0eXBlIjoicmVzdWx0cyJ9Cg==')}).to.throw(InvalidIDError); // {"type":"results"}
+        expect(() => {decodeId('eyJpZCI6NX0K')}).to.throw(InvalidIDError); // {"id":5}
+      });
     })
   })
 })

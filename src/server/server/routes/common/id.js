@@ -1,7 +1,32 @@
+import Boom from 'boom';
+
 /** Encoding to use for the decoded ID string */
 const STRING_ENCODING = 'utf8';
 /** Encoding to use for the encoded ID string */
 const ID_ENCODING = 'base64';
+
+/**
+ * Error thrown when decoding an IDfails for some reason
+ */
+export class InvalidIDError extends Error {
+  /**
+   * Construct the Error
+   * @param {string} message The error message
+   */
+  constructor(message) {
+    super(message);
+  }
+
+  /**
+   * Convert the error to a Boom error Object
+   * @return {Boom} the Boom error Object
+   */
+  toBoom() {
+    const response = Boom.create(400, this.message);
+    response.output.payload.error = 'INVALID_ID';
+    return response;
+  }
+}
 
 /**
  * Generate a ID string from a type and an id
@@ -21,7 +46,21 @@ export function generateId(type, id) {
  * @return {Object} the decoded ID details
  */
 export function decodeId(id) {
-  const decodedId = new Buffer(id, ID_ENCODING).toString(STRING_ENCODING);
-  const idDetails = JSON.parse(decodedId);
+  let idDetails;
+  try {
+    const decodedID = new Buffer(id, ID_ENCODING).toString(STRING_ENCODING);
+    idDetails = JSON.parse(decodedID);
+  } catch (e) {
+    throw new InvalidIDError('Failed to decode provided id');
+  }
+  if (!('type' in idDetails)) {
+    throw new InvalidIDError('Missing field: type');
+  }
+  if (!('id' in idDetails)) {
+    throw new InvalidIDError('Missing field: id');
+  }
+  if (Object.keys(idDetails).length > 2) {
+    throw new InvalidIDError('Unexpected fields in id');
+  }
   return idDetails;
 }

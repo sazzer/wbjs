@@ -16,7 +16,7 @@ Feature: Get worlds
 
   Scenario: Load World - no caching
     Given I have worlds with:
-      | ID      | 1                                    |
+      | ID      | 0                                    |
       | Name    | World 1                              |
       | Version | bf795571-d47b-4150-a84f-fbf88997c891 |
       | Created | 2016-09-06T12:48:00Z                 |

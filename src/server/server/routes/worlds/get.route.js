@@ -1,10 +1,9 @@
 import Joi  from 'joi'
-import { extractPaginationDetails } from '../pagination';
 import { WORLD_SCHEMA, translateToApi } from './world.schema'
-import { findAllWorlds } from '../../../worlds/finder';
+import { findWorldById } from '../../../worlds/finder';
 import { getLogger } from '../../../log';
-import { InvalidCursorError } from '../common/cursor';
 import { translateError } from '../errors';
+import { decodeId } from '../common/id';
 
 const logger = getLogger('worlds:get');
 
@@ -29,11 +28,15 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      reply(new Promise((resolve, reject) => reject(new Error('Not Implemented Yet')))
+      const response = new Promise((resolve, reject) => {resolve(decodeId(request.params.id))})
+        .then((id) => findWorldById(id.id))
+        .then(translateToApi)
         .catch((err) => {
           logger.log('error', 'Error retrieving world', err);
           return translateError(err);
-        }));
+        });
+
+      reply(response);
     }
   }
 }

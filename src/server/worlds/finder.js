@@ -1,7 +1,7 @@
 import { World } from './world';
 import moment from 'moment-timezone';
 import { ResultSet } from '../service/resultset';
-import { find } from './dao';
+import { find, getById } from './dao';
 
 /**
  * Mechanism to find all of the worlds in the system
@@ -17,11 +17,5 @@ export function findAllWorlds({pagination}) {
  * @return {Promise} A promise for the world that matches the ID
  */
 export function findWorldById(id) {
-  return new Promise((resolve, reject) => {
-    if (id === '123') {
-      resolve(new World('123', 'Discworld', 'C573ABB3-87CD-4E87-8760-5C76D60156D6', moment(), moment()));
-    } else {
-      reject(new Error(`Unknown world: ${id}`));
-    }
-  });
+  return getById(id);
 }

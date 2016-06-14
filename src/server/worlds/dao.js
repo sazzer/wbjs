@@ -2,6 +2,31 @@ import { World } from './world';
 import moment from 'moment-timezone';
 import { ResultSet } from '../service/resultset';
 import { connectToDb, queryBuilder } from '../db';
+import { getLogger } from '../log'
+
+const logger = getLogger('worlds:dao');
+
+/**
+ * Retrieve a single world by it's unique ID
+ * @param {String} id The unique ID of the World
+ * @return {Promise}  A promise for the world
+ */
+export function getById(id) {
+  const query = queryBuilder().select()
+    .from('worlds')
+    .field('id')
+    .field('name')
+    .field('version')
+    .field('created')
+    .field('updated')
+    .where('id = ?', id)
+    .toString();
+
+  logger.log('info', 'Loading a single world by ID', {id});
+  
+  return connectToDb().one(query)
+    .then((world) => new World(world.id, world.name, world.version, moment(world.created), moment(world.updated)))
+}
 
 /**
  * Find all of the worlds that match the given requirements

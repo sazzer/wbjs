@@ -26,6 +26,12 @@ export const routes = {
       failAction: 'error',
       params: {
 
+      },
+      query: {
+        count: Joi.number().integer().min(0).description('The number of worlds to retrieve'),
+        cursor: Joi.string().min(1).description('A cursor to start retriving worlds after'),
+        page: Joi.number().integer().min(0).description('A page of worlds to retrieve'),
+        offset: Joi.number().integer().min(0).description('The offset into the resultset of worlds to retrieve')
       }
     },
     handler: (request, reply) => {

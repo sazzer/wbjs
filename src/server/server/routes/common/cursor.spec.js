@@ -37,6 +37,9 @@ describe('Cursor', function() {
         expect(() => {decodeCursor('eyJ0eXBlIjoicmVzdWx0cyJ9Cg==')}).to.throw(InvalidCursorError); // {"type":"results"}
         expect(() => {decodeCursor('eyJvZmZzZXQiOjV9Cg==')}).to.throw(InvalidCursorError); // {"offset":5}
       });
+      it('Fails if the type is incorrect', function() {
+        expect(() => {decodeCursor('eyJ0eXBlIjoicmVzdWx0cyIsIm9mZnNldCI6NX0=', 'other')}).to.throw(InvalidCursorError); // {"type":"results", "offset":5}
+      })
     })
   })
 })

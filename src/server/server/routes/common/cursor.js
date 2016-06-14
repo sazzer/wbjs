@@ -43,9 +43,10 @@ export function generateCursor(type, offset) {
 /**
  * Decode an encoded cursor to produce the type and offset values
  * @param {String} cursor The cursor to decode
+ * @param {String} type The type of cursor to expect.
  * @return {Object} the decoded cursor details
  */
-export function decodeCursor(cursor) {
+export function decodeCursor(cursor, type) {
   let cursorDetails;
   try {
     const decodedCursor = new Buffer(cursor, CURSOR_ENCODING).toString(STRING_ENCODING);
@@ -61,6 +62,9 @@ export function decodeCursor(cursor) {
   }
   if (Object.keys(cursorDetails).length > 2) {
     throw new InvalidCursorError('Unexpected fields in cursor');
+  }
+  if (type !== void 0 && type !== cursorDetails.type) {
+    throw new InvalidCursorError('Incorrect type of cursor');
   }
   return cursorDetails;
 }

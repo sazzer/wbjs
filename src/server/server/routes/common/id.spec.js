@@ -37,6 +37,9 @@ describe('ID', function() {
         expect(() => {decodeId('eyJ0eXBlIjoicmVzdWx0cyJ9Cg==')}).to.throw(InvalidIDError); // {"type":"results"}
         expect(() => {decodeId('eyJpZCI6NX0K')}).to.throw(InvalidIDError); // {"id":5}
       });
+      it('Fails if the type is incorrect', function() {
+        expect(() => {decodeId('eyJ0eXBlIjoicmVzdWx0cyIsImlkIjo1fQ==', 'other')}).to.throw(InvalidIDError); // {"type":"results", "id":5}
+      })
     })
   })
 })

@@ -115,3 +115,9 @@ Scenario: Providing an invalid cursor
   Then I get an error response with:
     | Error Code  | INVALID_CURSOR |
     | Status Code | Bad Request    |
+
+Scenario: Providing an invalid type of cursor
+  When I list 10 worlds starting from cursor "eyJ0eXBlIjoicmVzdWx0cyIsIm9mZnNldCI6NX0="
+  Then I get an error response with:
+    | Error Code  | INVALID_CURSOR |
+    | Status Code | Bad Request    |

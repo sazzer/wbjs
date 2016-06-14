@@ -45,7 +45,7 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      const response = new Promise((resolve, reject) => {resolve(decodeId(request.params.id))})
+      const response = new Promise((resolve, reject) => {resolve(decodeId(request.params.id, 'world'))})
         .then((id) => findWorldById(id.id))
         .catch((err) => {
           if (err instanceof UnknownResourceError) {

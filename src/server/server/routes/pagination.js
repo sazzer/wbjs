@@ -6,9 +6,10 @@ const logger = getLogger('pagination');
 /**
  * Attempt to extract pagination details out of the provided request
  * @param {Request} request The request
+ * @param {String} cursorType The type of cursor to expect
  * @return {Object} The pagination details
  */
-export function extractPaginationDetails(request) {
+export function extractPaginationDetails(request, cursorType) {
   logger.log('debug', 'Extracting pagination details from request', {request});
   const count = Number.parseInt(request.query.count) || 10;
 
@@ -38,7 +39,7 @@ export function extractPaginationDetails(request) {
   } else if ('page' in offsetFields) {
     offset = offsetFields.page * count;
   } else if ('cursor' in offsetFields) {
-    const decodedCursor = decodeCursor(offsetFields.cursor);
+    const decodedCursor = decodeCursor(offsetFields.cursor, cursorType);
     offset = decodedCursor.offset;
     if (count > 0) {
       offset += 1;;

@@ -43,9 +43,10 @@ export function generateId(type, id) {
 /**
  * Decode an encoded ID to produce the type and Internal ID values
  * @param {String} id The ID to decode
+ * @param {String} type The type of ID to expect
  * @return {Object} the decoded ID details
  */
-export function decodeId(id) {
+export function decodeId(id, type) {
   let idDetails;
   try {
     const decodedID = new Buffer(id, ID_ENCODING).toString(STRING_ENCODING);
@@ -61,6 +62,9 @@ export function decodeId(id) {
   }
   if (Object.keys(idDetails).length > 2) {
     throw new InvalidIDError('Unexpected fields in id');
+  }
+  if (type !== void 0 && type !== idDetails.type) {
+    throw new InvalidIDError('Incorrect type of ID');
   }
   return idDetails;
 }

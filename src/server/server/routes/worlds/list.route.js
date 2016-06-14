@@ -35,7 +35,7 @@ export const routes = {
       }
     },
     handler: (request, reply) => {
-      reply(new Promise((resolve, reject) => resolve(extractPaginationDetails(request)))
+      reply(new Promise((resolve, reject) => resolve(extractPaginationDetails(request, 'worlds')))
         .then((pagination) => findAllWorlds({pagination}))
         .then(translateToApi)
         .catch((err) => {

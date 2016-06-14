@@ -14,6 +14,13 @@ Feature: Get worlds
       | Error Code  | INVALID_ID  |
       | Status Code | Bad Request |
 
+  Scenario: Invalid ID Type
+    # Type = "results"
+    When I retrieve the world with ID "eyJ0eXBlIjoicmVzdWx0cyIsImlkIjo1fQ=="
+    Then I get an error response with:
+      | Error Code  | INVALID_ID  |
+      | Status Code | Bad Request |
+
   Scenario: Load World - no caching
     Given I have worlds with:
       | ID      | 0                                    |

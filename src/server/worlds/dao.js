@@ -1,8 +1,9 @@
 import { World } from './world';
 import moment from 'moment-timezone';
 import { ResultSet } from '../service/resultset';
-import { connectToDb, queryBuilder } from '../db';
+import { connectToDb, queryBuilder, errors as dbErrors } from '../db';
 import { getLogger } from '../log'
+import { UnknownResourceError } from '../service/errors';
 
 const logger = getLogger('worlds:dao');
 
@@ -23,9 +24,19 @@ export function getById(id) {
     .toString();
 
   logger.log('info', 'Loading a single world by ID', {id});
-  
+  logger.log('debug', 'Executing query', {query});
+
   return connectToDb().one(query)
-    .then((world) => new World(world.id, world.name, world.version, moment(world.created), moment(world.updated)))
+    .catch(err => {
+      if (err instanceof dbErrors.QueryResultError && err.code == dbErrors.queryResultErrorCode.noData) {
+        logger.log('info', 'World not found', {id});
+        throw new UnknownResourceError('World not found');
+      } else {
+        logger.log('warn', 'Unexpected error loading World from database', err);
+        throw err;
+      }
+    })
+    .then((world) => new World(world.id, world.name, world.version, moment(world.created), moment(world.updated)));
 }
 
 /**

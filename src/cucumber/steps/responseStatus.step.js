@@ -2,7 +2,8 @@ import { expect } from 'chai';
 import { parseTall, parseOneTall } from './datatable';
 
 const STATUS_CODE_MAP = {
-  'Bad Request': 400
+  'Bad Request': 400,
+  'Not Found': 404
 }
 
 const ERROR_RESPONSE_MAP = {

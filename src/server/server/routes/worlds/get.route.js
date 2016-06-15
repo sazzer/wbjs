@@ -54,13 +54,17 @@ export const routes = {
             throw err;
           }
         })
-        .then(translateToApi)
+        .then(world => {
+          const response = request.generateResponse(translateToApi(world));
+          response.etag(world.version, {vary: false})
+          response.header('last-modified', world.updated.utc().format('ddd, DD MMM YYYY HH:mm:ss ZZ'));
+          return response;
+        })
         .catch((err) => {
           logger.log('error', 'Error retrieving world', err);
           return translateError(err);
-        });
-
-      reply(response);
+        })
+        .then(reply);
     }
   }
 }

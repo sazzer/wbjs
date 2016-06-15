@@ -9,12 +9,20 @@ const SEED_DATA_COLUMN_MAP = {
   Updated: {column: 'updated', transformer: moment}
 };
 
-const WORLD_API_COLUMN_MAP = {
+const LIST_WORLD_API_COLUMN_MAP = {
   ID: {field: 'resource.id'},
   Name: {field: 'resource.name'},
   Created: {field: 'resource.created'},
   Offset: {field: 'offset', transformer: Number.parseInt},
   Cursor: {field: 'cursor'}
+}
+
+const GET_WORLD_API_COLUMN_MAP = {
+  ID: {field: 'body.id'},
+  Name: {field: 'body.name'},
+  Created: {field: 'body.created'},
+  Version: {field: 'headers.etag[0]'},
+  Modified: {field: 'headers.last-modified[0]'}
 }
 
 module.exports = function() {
@@ -61,6 +69,12 @@ module.exports = function() {
   this.Then(/World (\d+) is:/, function(index, datatable) {
     const parsed = parseOneTall(datatable);
 
-    return this.checkResultSetResponse(index, parsed, WORLD_API_COLUMN_MAP);
+    return this.checkResultSetResponse(index, parsed, LIST_WORLD_API_COLUMN_MAP);
+  });
+
+  this.Then(/^the retrieved World is:$/, function (datatable) {
+    const parsed = parseOneTall(datatable);
+
+    return this.checkCompleteResponse(parsed, GET_WORLD_API_COLUMN_MAP);
   });
 }

@@ -1,9 +1,15 @@
 import pgPromise from 'pg-promise';
 import config from '../config';
 import squel from 'squel';
+import { getLogger } from '../log';
+
+const logger = getLogger('db');
 
 const pgp = pgPromise();
-const db = pgp(config.get('database'));
+const dbUrl = config.get('database');
+const db = pgp(dbUrl);
+
+logger.log('info', 'Connecting to database', {dbUrl});
 
 /** The details of possible errors */
 export const errors = pgp.errors;

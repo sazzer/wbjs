@@ -38,11 +38,10 @@ module.exports = function() {
             response,
             body,
             status: response.status,
-            headers: response.headers,
+            headers: response.headers.raw(),
           }
         });
       });
-
       return this.lastResponse;
     }
 
